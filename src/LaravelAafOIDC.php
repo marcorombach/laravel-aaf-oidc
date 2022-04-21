@@ -22,21 +22,19 @@ class LaravelAafOIDC extends Controller
         $oidc->setRedirectURL(url('/oidc-callback'));
         $access = $oidc->authenticate();
 
-        $this->user = New User();
-        $this->user->username = $oidc->requestUserInfo('user_name');
+        $userdata = [
+            'user_name' => $oidc->requestUserInfo('user_name'),
+            'email' => $oidc->requestUserInfo('email'),
+            'given_name' => $oidc->requestUserInfo('given_name'),
+            'family_name' => $oidc->requestUserInfo('family_name')
+        ];
 
-        Auth::login($this->user);
-
-        Log::info(Auth::user());
+        LoginHandler::handleLogin($userdata);
 
         if(config('aaf-oidc.post-login') != ''){
             return redirect()->route(config('aaf-oidc.post-login'));
         }
         return redirect(url('/'));
-    }
-
-    function getUser(){
-        return $this->user;
     }
 
 }
