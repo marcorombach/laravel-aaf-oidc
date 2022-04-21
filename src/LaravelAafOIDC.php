@@ -13,13 +13,8 @@ use Jumbojett\OpenIDConnectClient;
 class LaravelAafOIDC extends Controller
 {
     private $user;
-    private $route;
 
     function authenticate(){
-
-        $this->route = Route::current();
-
-        Log::info($this->route);
 
         $oidc = new OpenIDConnectClient(config('aaf-oidc.provider_url'),config('aaf-oidc.client_id'),config('aaf-oidc.client_secret'));
         $oidc->setRedirectURL(url('/oidc-callback'));
@@ -30,12 +25,10 @@ class LaravelAafOIDC extends Controller
 
         Auth::login($this->user);
 
-        //TODO: Return Authenticable (e.g. User-Object)
-        if($access){
-            return true;
-        }else{
-            return false;
+        if(config('aaf-oidc.post-login') != ''){
+            return redirect()->route(config('aaf-oidc.post-login'));
         }
+        return redirect(url('/'));
     }
 
     function getUser(){
