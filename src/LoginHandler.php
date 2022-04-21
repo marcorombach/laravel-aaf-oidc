@@ -12,6 +12,9 @@ use Jumbojett\OpenIDConnectClient;
 class LoginHandler
 {
     static function handleLogin($userdata){
+
+        Log::info('Userdata: ' . json_encode($userdata));
+
         $user = new User();
         $table = $user->getTable();
         $columns = \Schema::getColumnListing($table);
