@@ -29,26 +29,25 @@ class LoginHandler
             $columns = \Schema::getColumnListing($table);
 
             if (in_array('username', $columns)) {
-                $user->username = $userdata['user_name'];
+                $user->username = data_get($userdata,'user_name');
             }
             if (in_array('name', $columns) && in_array('givenname', $columns)) {
-                $user->name = $userdata['family_name'];
+                $user->name = data_get($userdata,'family_name');
             } elseif (in_array('name', $columns)) {
-                $user->name = $userdata['given_name'] . " " . $userdata['family_name'];
+                $user->name = data_get($userdata,'given_name') . " " . data_get($userdata,'family_name');
             }
             if (in_array('email', $columns)) {
-                $user->email = $userdata['email'];
+                $user->email = data_get($userdata,'email');
             }
             if (in_array('givenname', $columns)) {
-                $user->givenname = $userdata['given_name'];
+                $user->givenname = data_get($userdata,'given_name');
             }
             if (in_array('fullname', $columns)) {
-                $user->fullname = $userdata['given_name'] . " " . $userdata['family_name'];
+                $user->fullname = data_get($userdata,'given_name') . " " . data_get($userdata,'family_name');
             }
             if (in_array('password', $columns)) {
                 $user->password = Str::random(32);
             }
-
 
             $user->save();
         }
