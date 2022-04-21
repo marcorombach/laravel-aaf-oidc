@@ -2,6 +2,7 @@
 
 namespace Marcorombach\LaravelAafOIDC;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -10,7 +11,15 @@ use Jumbojett\OpenIDConnectClient;
 class LoginHandler
 {
     static function handleLogin($userdata){
-        $user = User::where('username', $userdata['user_name'])->orWhere('email', $userdata['email'])->first();
+        $user = new User();
+        $table = $user->getTable();
+        $columns = \Schema::getColumnListing($table);
+
+        if (in_array('username', $columns)) {
+            $user = User::where('username', $userdata['user_name'])->first();
+        }elseif (in_array('email', $columns)){
+            $user = User::where('email', $userdata['email'])->first();
+        }
 
         if(!$user) {
             Log::info("Creating User");
