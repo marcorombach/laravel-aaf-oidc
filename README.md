@@ -13,7 +13,7 @@ composer require marcorombach/laravel-aaf-oidc
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-aaf-oidc-config"
+php artisan vendor:publish --tag="aaf-oidc-config"
 ```
 
 This is the contents of the published config file:
