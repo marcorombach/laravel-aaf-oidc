@@ -2,16 +2,19 @@
 
 namespace Marcorombach\LaravelAafOIDC;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Routing\Controller;
-use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Jumbojett\OpenIDConnectClient;
 
 class LaravelAafOIDC extends Controller
 {
+    use AuthorizesRequests, ValidatesRequests, AuthenticatesUsers;
+
     private $user;
 
     function authenticate(){
