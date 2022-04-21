@@ -22,7 +22,7 @@ class LaravelAafOIDC extends Controller
         $oidc->setRedirectURL(url('/oidc-callback'));
         $oidc->authenticate();
 
-        Log::info('Username: ' . $oidc->requestUserInfo('preferred_username') . ' ' . $oidc->requestUserInfo('user_name'));
+        Log::info('UserData: ' . json_encode($oidc->requestUserInfo()));
 
         $userdata = [
             'user_name' => $oidc->requestUserInfo('user_name'),
