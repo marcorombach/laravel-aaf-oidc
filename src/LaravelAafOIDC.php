@@ -10,7 +10,7 @@ class LaravelAafOIDC extends Controller
     function authenticate(){
 
         $oidc = new OpenIDConnectClient(config('aaf-oidc.provider_url'),config('aaf-oidc.client_id'),config('aaf-oidc.client_secret'));
-
+        $oidc->setRedirectURL(url('/oidc-callback'));
         $oidc->authenticate();
 
         $access = true;
