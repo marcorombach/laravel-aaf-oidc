@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Jumbojett\OpenIDConnectClient;
 
 class LoginHandler
@@ -44,6 +45,11 @@ class LoginHandler
             if (in_array('fullname', $columns)) {
                 $user->fullname = $userdata['given_name'] . " " . $userdata['family_name'];
             }
+            if (in_array('password', $columns)) {
+                $user->password = Str::random(32);
+            }
+
+
             $user->save();
         }
         Log::info("Logging In");
