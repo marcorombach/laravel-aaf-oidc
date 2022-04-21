@@ -27,6 +27,8 @@ class LaravelAafOIDC extends Controller
 
         Auth::login($this->user);
 
+        Log::info(Auth::user());
+
         if(config('aaf-oidc.post-login') != ''){
             return redirect()->route(config('aaf-oidc.post-login'));
         }
