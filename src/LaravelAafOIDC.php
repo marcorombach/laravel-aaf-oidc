@@ -25,7 +25,8 @@ class LaravelAafOIDC extends Controller
             $oidc->authenticate();
 
             Log::info('UserData: ' . json_encode($oidc->requestUserInfo()));
-            Log::info('UserData: ' . json_encode($oidc->getAccessToken()));
+            Log::info('AccessToken: ' . json_encode($oidc->getAccessToken()));
+            Log::info('VerifiedClaims: ' . json_encode($oidc->getVerifiedClaims()));
 
             $userdata = [
                 'user_name' => $oidc->requestUserInfo('user_name'),
