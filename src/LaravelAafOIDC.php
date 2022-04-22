@@ -25,12 +25,8 @@ class LaravelAafOIDC extends Controller
             $oidc->addScope(['profile','email']);
             $oidc->authenticate();
 
-            Log::info('UserData: ' . json_encode($oidc->requestUserInfo()));
-            Log::info('AccessToken: ' . json_encode($oidc->getAccessToken()));
-            Log::info('VerifiedClaims: ' . json_encode($oidc->getVerifiedClaims()));
-
             $userdata = [
-                'user_name' => $oidc->requestUserInfo('user_name'),
+                'user_name' => $oidc->requestUserInfo('preferred_username'),
                 'email' => $oidc->requestUserInfo('email'),
                 'given_name' => $oidc->requestUserInfo('given_name'),
                 'family_name' => $oidc->requestUserInfo('family_name')

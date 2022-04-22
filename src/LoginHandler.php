@@ -13,8 +13,6 @@ class LoginHandler
 {
     static function handleLogin($userdata){
 
-        Log::info('Userdata: ' . json_encode($userdata));
-
         $user = new User();
         $table = $user->getTable();
         $columns = \Schema::getColumnListing($table);
@@ -26,7 +24,7 @@ class LoginHandler
         }
 
         if(!$user) {
-            Log::info("Creating User");
+            Log::info("AAF-OIDC: Creating User");
             $user = new User();
             $table = $user->getTable();
             $columns = \Schema::getColumnListing($table);
@@ -54,7 +52,7 @@ class LoginHandler
 
             $user->save();
         }
-        Log::info("Logging In");
+        Log::info("AAF-OIDC: Logging In");
         Auth::login($user);
     }
 }
