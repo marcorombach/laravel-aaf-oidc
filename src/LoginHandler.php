@@ -2,12 +2,10 @@
 
 namespace Marcorombach\LaravelAafOIDC;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Jumbojett\OpenIDConnectClient;
 
 class LoginHandler
 {
