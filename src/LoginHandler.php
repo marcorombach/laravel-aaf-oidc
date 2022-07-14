@@ -59,5 +59,6 @@ class LoginHandler
         }
         Log::info("AAF-OIDC: Logging In");
         Auth::login($user);
+        Log::info("AAF-OIDC: Session - " . json_encode(session()->all()));
     }
 }
