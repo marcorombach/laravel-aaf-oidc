@@ -4,7 +4,6 @@ namespace Marcorombach\LaravelAafOIDC;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Marcorombach\LaravelAafRadius\Commands\LaravelAafOIDCCommand;
 
 class LaravelAafOIDCServiceProvider extends PackageServiceProvider
 {

@@ -13,8 +13,6 @@ class LaravelAafOIDC extends Controller
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    private $user;
-
     function authenticate(){
         try {
             $oidc = new OpenIDConnectClient(config('aaf-oidc.provider_url'), config('aaf-oidc.client_id'), config('aaf-oidc.client_secret'));
@@ -28,6 +26,7 @@ class LaravelAafOIDC extends Controller
                 'given_name' => $oidc->requestUserInfo('given_name'),
                 'family_name' => $oidc->requestUserInfo('family_name')
             ];
+
         }catch(OpenIDConnectClientException $e){
             Log::error($e->getMessage());
         }
