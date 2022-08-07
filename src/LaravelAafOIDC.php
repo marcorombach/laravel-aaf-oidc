@@ -19,23 +19,28 @@ class LaravelAafOIDC extends Controller
             $oidc->setRedirectURL(url('/oidc-callback'));
             $oidc->addScope(['profile','email']);
             $authenticated = $oidc->authenticate();
-
-            $userdata = new UserData();
-            $userdata->setUsername($oidc->requestUserInfo('preferred_username'));
-            $userdata->setEmail($oidc->requestUserInfo('email'));
-            $userdata->setGivenname($oidc->requestUserInfo('given_name'));
-            $userdata->setFamilyname($oidc->requestUserInfo('family_name'));
-
         }catch(OpenIDConnectClientException $e){
             Log::error($e->getMessage());
-            return redirect()->route(config('aaf-oidc.error-route'))->with(['error' => $e->getMessage()]);
+            if(config('aaf-oidc.error-route') != '') {
+                return redirect()->route(config('aaf-oidc.error-route'))->with(['error' => $e->getMessage()]);
+            }
+            return redirect(url('/'))->with(['error' => $e->getMessage()]);
         }
+
+        $userdata = new UserData();
+        $userdata->setUsername($oidc->requestUserInfo('preferred_username'));
+        $userdata->setEmail($oidc->requestUserInfo('email'));
+        $userdata->setGivenname($oidc->requestUserInfo('given_name'));
+        $userdata->setFamilyname($oidc->requestUserInfo('family_name'));
 
         if($authenticated){
             try{
                 LoginHandler::handleLogin($userdata);
             }catch(\ErrorException $e){
-                return redirect()->route(config('aaf-oidc.error-route'))->with(['error' => $e]);
+                if(config('aaf-oidc.error-route') != '') {
+                    return redirect()->route(config('aaf-oidc.error-route'))->with(['error' => $e]);
+                }
+                return redirect(url('/'))->with(['error' => $e]);
             }
 
 
