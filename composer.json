@@ -1,6 +1,6 @@
 {
     "name": "marcorombach/laravel-aaf-oidc",
-    "description": "This is my package laravel-aaf-oidc",
+    "description": "OpenID Connect Module for Laravel and AAF IdP",
     "keywords": [
         "marcorombach",
         "laravel",
