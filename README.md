@@ -1,4 +1,4 @@
-# laravel-aaf-radius
+# laravel-aaf-oidc
 
 This Laravel Package provides a simple way to authenticate with OpenID Connect.
 Minimum requirement is a User Model/Table which has either a field 'username' or a field 'email'.
@@ -7,8 +7,8 @@ The error route is called with a flashed session variable (session('error')) con
 
 To configure this package with NetIQ Advanced Authentication, a Event must be created.
 The ClientID and Client Secret you get there must be entered in the corresponding field in the configuration file of this package.
-The provider_url in the config hast to be set like this: https://<aaf-domainname>/osp/a/<tenant>/auth/oauth2
-All needed Endpoints will be automatically retrieved from https://<aaf-domainname>/osp/a/<tenant>/auth/oauth2/.well-known/openid-configuration
+The provider_url in the config hast to be set like this: ```https://<aaf-domainname>/osp/a/<tenant>/auth/oauth2```
+All needed Endpoints will be automatically retrieved from ```https://<aaf-domainname>/osp/a/<tenant>/auth/oauth2/.well-known/openid-configuration```
 
 ## Installation
 
@@ -49,7 +49,7 @@ The redirect URI is your applications base URI + /oidc-callback - this has to be
 It's not necessary to use the class directly. Laravel-AAF-SAML provides a route which starts the authentication process.
 
 ```
-/saml-login
+/oidc-login
 ```
 
 ## Credits
