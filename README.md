@@ -46,6 +46,11 @@ $authenticatable = $laravelAafOIDC->authenticate();
 
 The redirect URI is your applications base URI + /oidc-callback - this has to be set in the AAF Event
 
+It's not necessary to use the class directly. Laravel-AAF-SAML provides a route which starts the authentication process.
+
+```
+/saml-login
+```
 
 ## Credits
 
