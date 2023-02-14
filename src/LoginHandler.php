@@ -57,8 +57,13 @@ class LoginHandler
 
             $user->save();
         }
-        Log::info("AAF-OIDC: Logging In");
-        Auth::login($user);
-        Log::info("AAF-OIDC: Session - " . json_encode(session()->all()));
+
+        if(!$user){
+            throw new \ErrorException('User was not found in database.');
+        }else{
+            Log::info("AAF-OIDC: Logging In");
+            Auth::login($user);
+            Log::info("AAF-OIDC: Session - " . json_encode(session()->all()));
+        }
     }
 }
