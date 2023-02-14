@@ -38,9 +38,9 @@ class LaravelAafOIDC extends Controller
                 LoginHandler::handleLogin($userdata);
             }catch(\ErrorException $e){
                 if(config('aaf-oidc.error-route') != '') {
-                    return redirect()->route(config('aaf-oidc.error-route'))->with(['error' => $e]);
+                    return redirect()->route(config('aaf-oidc.error-route'))->with(['error' => $e->getMessage()]);
                 }
-                return redirect(url('/'))->with(['error' => $e]);
+                return redirect(url('/'))->with(['error' => $e->getMessage()]);
             }
             if(config('aaf-oidc.post-login-route') != ''){
                 return redirect()->route(config('aaf-oidc.post-login-route'));
