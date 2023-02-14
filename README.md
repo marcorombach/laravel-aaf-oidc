@@ -10,6 +10,8 @@ The ClientID and Client Secret you get there must be entered in the correspondin
 The provider_url in the config hast to be set like this: ```https://<aaf-domainname>/osp/a/<tenant>/auth/oauth2```
 All needed Endpoints will be automatically retrieved from ```https://<aaf-domainname>/osp/a/<tenant>/auth/oauth2/.well-known/openid-configuration```
 
+
+
 ## Installation
 
 Install the package via composer:
@@ -52,6 +54,14 @@ It's not necessary to use the class directly. Laravel-AAF-SAML provides a route 
 /oidc-login
 ```
 
+**Please note**: your application needs to use HTTPS, as it's a requirement of the NetIQ Advanced Authentication Framework.
+
+## Requirements
+
+- PHP 7.4 or greater
+- Laravel 8.0 or greater
+
 ## Credits
 
+- [jumbojett - OpenID-Connect-PHP](https://github.com/jumbojett/OpenID-Connect-PHP)
 - [Marco Rombach](https://github.com/marcorombach)
