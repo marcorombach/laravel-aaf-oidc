@@ -42,7 +42,6 @@ class LaravelAafOIDC extends Controller
                 }
                 return redirect(url('/'))->with(['error' => $e]);
             }
-
             if(config('aaf-oidc.post-login-route') != ''){
                 return redirect()->route(config('aaf-oidc.post-login-route'));
             }

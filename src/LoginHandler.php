@@ -28,7 +28,7 @@ class LoginHandler
             $user = User::where('email', $userdata->getEmail())->first();
         }
 
-        if(!$user) {
+        if(!$user && config('aaf-oidc.create-user')) {
             Log::info("AAF-OIDC: Creating User");
             $user = new User();
             $table = $user->getTable();
