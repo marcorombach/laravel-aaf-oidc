@@ -18,7 +18,7 @@ class LoginHandler
         $table = $user->getTable();
         $columns = \Schema::getColumnListing($table);
 
-        if(!in_array('username', $columns) && in_array('email', $columns)){
+        if(!in_array('username', $columns) && !in_array('email', $columns)){
             throw new \ErrorException('User Table is not compatible. No username or email field.');
         }
 
