@@ -11,13 +11,30 @@ use Jumbojett\OpenIDConnectClientException;
 class LaravelAafOIDC extends Controller
 {
     use AuthorizesRequests, ValidatesRequests;
+    private $oidc;
+
+    public function __construct()
+    {
+        $this->oidc = new LaravelOIDCClient(config('aaf-oidc.provider_url'), config('aaf-oidc.client_id'), config('aaf-oidc.client_secret'));
+    }
 
     function authenticate(){
         try {
-            $oidc = new LaravelOIDCClient(config('aaf-oidc.provider_url'), config('aaf-oidc.client_id'), config('aaf-oidc.client_secret'));
-            $oidc->setRedirectURL(url('/oidc-callback'));
-            $oidc->addScope(['profile','email']);
-            $authenticated = $oidc->authenticate();
+            $this->oidc->setRedirectURL(url('/oidc-callback'));
+            $this->oidc->addScope(['profile','email']);
+            $this->oidc->authenticate();
+        }catch(OpenIDConnectClientException $e){
+            Log::error($e->getMessage());
+            if(config('aaf-oidc.error-route') != '') {
+                return redirect()->route(config('aaf-oidc.error-route'))->with(['error' => $e->getMessage()]);
+            }
+            return redirect(url('/'))->with(['error' => $e->getMessage()]);
+        }
+    }
+
+    function authenticateRedirect(){
+        try {
+            $authenticated = $this->oidc->authenticate();
         }catch(OpenIDConnectClientException $e){
             Log::error($e->getMessage());
             if(config('aaf-oidc.error-route') != '') {
@@ -29,10 +46,10 @@ class LaravelAafOIDC extends Controller
         if($authenticated){
             try{
                 $userdata = new UserData();
-                $userdata->setUsername($oidc->requestUserInfo('preferred_username'));
-                $userdata->setEmail($oidc->requestUserInfo('email'));
-                $userdata->setGivenname($oidc->requestUserInfo('given_name'));
-                $userdata->setFamilyname($oidc->requestUserInfo('family_name'));
+                $userdata->setUsername($this->oidc->requestUserInfo('preferred_username'));
+                $userdata->setEmail($this->oidc->requestUserInfo('email'));
+                $userdata->setGivenname($this->oidc->requestUserInfo('given_name'));
+                $userdata->setFamilyname($this->oidc->requestUserInfo('family_name'));
 
                 LoginHandler::handleLogin($userdata);
             }catch(\ErrorException $e){
