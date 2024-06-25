@@ -2,6 +2,7 @@
 
 namespace Marcorombach\LaravelAafOIDC;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
@@ -27,7 +28,8 @@ class LaravelAafOIDC extends Controller
         }
     }
 
-    function authenticateRedirect(){
+    function authenticateRedirect(Request $request){
+        $_REQUEST = $request->query();
         try {
             $oidc = new LaravelOIDCClient(config('aaf-oidc.provider_url'), config('aaf-oidc.client_id'), config('aaf-oidc.client_secret'));
             $oidc->setRedirectURL(url('/oidc-callback'));
