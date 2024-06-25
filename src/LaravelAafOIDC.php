@@ -36,6 +36,7 @@ class LaravelAafOIDC extends Controller
             $oidc->addScope(['profile','email']);
             $authenticated = $oidc->authenticate();
         }catch(OpenIDConnectClientException $e){
+            $_REQUEST = [];
             Log::error($e->getMessage());
             if(config('aaf-oidc.error-route') != '') {
                 return redirect()->route(config('aaf-oidc.error-route'))->with(['error' => $e->getMessage()]);
@@ -51,8 +52,10 @@ class LaravelAafOIDC extends Controller
                 $userdata->setGivenname($oidc->requestUserInfo('given_name'));
                 $userdata->setFamilyname($oidc->requestUserInfo('family_name'));
 
+                $_REQUEST = [];
                 LoginHandler::handleLogin($userdata);
             }catch(\ErrorException $e){
+                $_REQUEST = [];
                 if(config('aaf-oidc.error-route') != '') {
                     return redirect()->route(config('aaf-oidc.error-route'))->with(['error' => $e->getMessage()]);
                 }
@@ -64,9 +67,11 @@ class LaravelAafOIDC extends Controller
             return redirect(url('/'));
         }
         if(config('aaf-oidc.error-route') != ''){
+            $_REQUEST = [];
             Log::error("Authentication failed (authenticated = false)");
             return redirect()->route(config('aaf-oidc.error-route'))->with(['error' => 'Authentication failed']);
         }
+        $_REQUEST = [];
         return redirect(url('/'))->with(['error' => 'Authentication failed']);
     }
 
