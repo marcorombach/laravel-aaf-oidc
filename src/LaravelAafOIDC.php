@@ -26,14 +26,14 @@ class LaravelAafOIDC extends Controller
             return redirect(url('/'))->with(['error' => $e->getMessage()]);
         }
 
-        $userdata = new UserData();
-        $userdata->setUsername($oidc->requestUserInfo('preferred_username'));
-        $userdata->setEmail($oidc->requestUserInfo('email'));
-        $userdata->setGivenname($oidc->requestUserInfo('given_name'));
-        $userdata->setFamilyname($oidc->requestUserInfo('family_name'));
-
         if($authenticated){
             try{
+                $userdata = new UserData();
+                $userdata->setUsername($oidc->requestUserInfo('preferred_username'));
+                $userdata->setEmail($oidc->requestUserInfo('email'));
+                $userdata->setGivenname($oidc->requestUserInfo('given_name'));
+                $userdata->setFamilyname($oidc->requestUserInfo('family_name'));
+
                 LoginHandler::handleLogin($userdata);
             }catch(\ErrorException $e){
                 if(config('aaf-oidc.error-route') != '') {
