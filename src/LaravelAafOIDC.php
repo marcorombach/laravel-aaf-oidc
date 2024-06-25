@@ -6,7 +6,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
-use Jumbojett\OpenIDConnectClient;
 use Jumbojett\OpenIDConnectClientException;
 
 class LaravelAafOIDC extends Controller
@@ -15,7 +14,7 @@ class LaravelAafOIDC extends Controller
 
     function authenticate(){
         try {
-            $oidc = new OpenIDConnectClient(config('aaf-oidc.provider_url'), config('aaf-oidc.client_id'), config('aaf-oidc.client_secret'));
+            $oidc = new LaravelOIDCClient(config('aaf-oidc.provider_url'), config('aaf-oidc.client_id'), config('aaf-oidc.client_secret'));
             $oidc->setRedirectURL(url('/oidc-callback'));
             $oidc->addScope(['profile','email']);
             $authenticated = $oidc->authenticate();
