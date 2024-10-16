@@ -22,11 +22,26 @@ class LoginHandler
             throw new \ErrorException('User Table is not compatible. No username or email field.');
         }
 
-        if (in_array('username', $columns)) {
-            $user = User::where('username', $userdata->getUsername())->first();
-        }elseif (in_array('email', $columns)){
-            $user = User::where('email', $userdata->getEmail())->first();
+        if(config() == 'username'){
+            if (in_array('username', $columns)) {
+                $user = User::where('username', $userdata->getUsername())->first();
+            }else{
+                throw new \ErrorException('User Table is not compatible. No username field as configured.');
+            }
+        }else if(config() == 'email'){
+            if (in_array('email', $columns)) {
+                $user = User::where('email', $userdata->getEmail())->first();
+            }else{
+                throw new \ErrorException('User Table is not compatible. No email field as configured.');
+            }
+        }else{
+            if (in_array('username', $columns)) {
+                $user = User::where('username', $userdata->getUsername())->first();
+            }elseif (in_array('email', $columns)){
+                $user = User::where('email', $userdata->getEmail())->first();
+            }
         }
+
 
         if(!$user && config('aaf-oidc.create-user')) {
             Log::info("AAF-OIDC: Creating User");
