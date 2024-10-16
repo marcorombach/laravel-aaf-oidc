@@ -22,13 +22,13 @@ class LoginHandler
             throw new \ErrorException('User Table is not compatible. No username or email field.');
         }
 
-        if(config() == 'username'){
+        if(config('aaf-oidc.compare-attribute') == 'username'){
             if (in_array('username', $columns)) {
                 $user = User::where('username', $userdata->getUsername())->first();
             }else{
                 throw new \ErrorException('User Table is not compatible. No username field as configured.');
             }
-        }else if(config() == 'email'){
+        }else if(config('aaf-oidc.compare-attribute') == 'email'){
             if (in_array('email', $columns)) {
                 $user = User::where('email', $userdata->getEmail())->first();
             }else{
