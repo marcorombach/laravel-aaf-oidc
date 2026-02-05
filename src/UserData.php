@@ -123,7 +123,7 @@ class UserData
     public function getEmail(): string
     {
         $this->checkData();
-        return $this->email;
+        return $this->email ?? '';
     }
 
     /**
@@ -141,7 +141,7 @@ class UserData
     public function getUsername(): string
     {
         $this->checkData();
-        return $this->username;
+        return $this->username ?? '';
     }
 
     /**
